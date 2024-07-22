@@ -4,7 +4,15 @@ const messages = [
   "Apply for jobs 💼",
   "Invest your new income 🤑",
 ];
+
 export default function App() {
+  return (
+    <div>
+      <Steps />
+    </div>
+  )
+}
+function Steps() {
 
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(true);
@@ -19,7 +27,6 @@ export default function App() {
     if (step < 3) { setStep((s) => s + 1); }
   }
 
-
   return (
     <div>
       <button className="close" onClick={() => setIsOpen((is) => !is)}>&times;</button>
@@ -30,20 +37,49 @@ export default function App() {
             <div className={`${step >= 2 ? "active" : ""}`}>2</div>
             <div className={`${step >= 3 ? "active" : ""}`}>3</div>
           </div>
-          <p className="message">
-            Step {step}: {messages[step - 1]}
-          </p>
+
+          <StepMessage step={step}>
+            {messages[step - 1]}
+            <div className="buttons">
+              <Button textColor="#333" bgColor="#e7e7e7" onClick={() => alert(messages[step - 1])}>
+                Learn More
+              </Button>
+            </div>
+          </StepMessage>
 
           <div className="buttons">
-            <button style={{ backgroundColor: "#7950f2", color: "#fff" }}
-              onClick={handlePrevious}>Previous</button>
-            <button
-              style={{ backgroundColor: "#7950f2", color: "#fff" }}
-              onClick={handleNext}>Next</button>
+
+            <Button textColor="#fff" bgColor="#7950f2" onClick={handlePrevious} >
+              <span>👈 Previous</span>
+            </Button>
+
+            <Button textColor="#fff" bgColor="#7950f2" onClick={handleNext}>
+              <span>Next 👉</span>
+            </Button>
           </div>
         </div>
       )
       }
-    </div>
+    </div >
   );
 }
+
+function StepMessage({ step, children }) {
+  return (
+    <div className="message">
+      <p>Step {step}</p>
+      {children}
+    </div>
+  )
+}
+
+function Button({ textColor, bgColor, onClick, children }) {
+  return (
+    <button style={{ backgroundColor: bgColor, color: textColor }}
+      onClick={onClick}>{children}</button>
+  )
+}
+
+
+//Children Props
+
